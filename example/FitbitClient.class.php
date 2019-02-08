@@ -97,6 +97,27 @@ class FitbitClient {
 	      $this->refreshToken = $json['refresh_token'];
 	      $this->expires = time() + $json['expires_in'];
       }
+	/**
+      * \fn revokeAccessToken() if needed, revoke access for this account
+      *
+      */
+	
+     public static function revokeAccessToken($accessToken)
+     { 
+	      $request=[];
+	      $oauth_profile_header = ["Authorization: Bearer " . $accessToken];                
+	      $url = HOST."revoke";
+	      $cu = curl_init($url);
+	      curl_setopt($cu, CURLOPT_HTTPHEADER, $oauth_profile_header);
+	      curl_setopt($cu, CURLOPT_POST, true);
+	      curl_setopt($cu, CURLOPT_POSTFIELDS, http_build_query(array('token'=>$accessToken)));
+	      curl_setopt($cu, CURLOPT_RETURNTRANSFER, 1);
+	      curl_setopt($cu, CURLOPT_SSL_VERIFYPEER, false);
+	      $result = curl_exec($cu);
+	      curl_close($cu);
+	      return json_encode($result);
+     }
+
 
       /**
       * \fn getResources() request json data from the Fitbit API provider
