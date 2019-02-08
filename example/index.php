@@ -29,4 +29,10 @@ if (isset($_SESSION['authFitbit']) && $_SESSION['authFitbit'] == 1) {
    print_r($fclient->getHeartRateIntraday());
 }
 
+if (isset($_GET['revokeaccess']) && !empty($_GET['revokeaccess'])) {
+   $result = FitbitClient::revokeAccessToken($_GET['revokeaccess']);
+   print_r($result);
+   exit;
+}
+
 ?>
